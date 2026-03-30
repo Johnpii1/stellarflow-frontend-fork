@@ -4,7 +4,7 @@ import AdminTabBar from "./components/AdminTabBar";
 
 const page = () => {
   return (
-    <main>
+    <main className="min-h-screen bg-[#f5f5f5]">
       <Nav />
       <AdminTabBar />
     </main>

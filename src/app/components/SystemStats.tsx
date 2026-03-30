@@ -61,9 +61,25 @@ const SystemStats = () => {
           <StatsCard label="Whitelisted Relayers:" value="3" />
         </div>
 
-        {/* Bottom Decorative Line */}
-        <div className="mt-16 h-0.5 bg-zinc-800/50 w-full relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#CBF34D]/20 to-transparent" />
+        {/* NGN/XLM (24h) Analysis Row */}
+        <div className="mt-12 border-t border-zinc-800/60 w-full" />
+        
+        <div className="py-8 flex items-center justify-between">
+          <h3 className="text-[#CBF34D] font-bold text-sm md:text-base uppercase tracking-[0.25em] opacity-90">
+            NGN/XLM (24h)
+          </h3>
+          <p className="text-white/80 font-mono text-sm md:text-lg tracking-tight">
+            750.50 NGN/XLM
+          </p>
+        </div>
+
+        {/* Total Data Traffic (7d) Placeholder Row */}
+        <div className="border-t border-zinc-800/60 w-full" />
+        
+        <div className="py-8 flex items-center">
+          <h3 className="text-[#CBF34D] font-bold text-sm md:text-base uppercase tracking-[0.25em] opacity-90">
+            TOTAL DATA TRAFFIC (7d)
+          </h3>
         </div>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import React from "react";
 import Breadcrumb from "./Breadcrumb";
+import GlobalHealthIndicator from "./GlobalHealthIndicator";
 
 interface StatsCardProps {
   label: string;
@@ -42,11 +43,9 @@ const SystemStats = () => {
         {/* Subtle background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#CBF34D]/5 to-transparent pointer-events-none" />
 
-        {/* Global Health Badge */}
-        <div className="mb-10 inline-flex items-center gap-2 px-3 py-1 rounded-md border border-[#CBF34D]/30 bg-[#CBF34D]/10">
-          <span className="text-[#CBF34D] font-bold text-xs tracking-widest uppercase">
-            GLOBAL HEALTH: <span className="ml-1 text-white opacity-90">[ ACTIVE ]</span>
-          </span>
+        {/* Global Health Indicator */}
+        <div className="mb-10">
+          <GlobalHealthIndicator status="ACTIVE" />
         </div>
 
         {/* Stats Grid */}

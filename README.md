@@ -15,13 +15,16 @@ StellarFlow Frontend is a cutting-edge **Next.js 15** application that provides 
 - [cite_start]**Node.js** v18+ [cite: 83]
 - [cite_start]**Stellar Wallet** (Albedo recommended) [cite: 760]
 
+# FIGMA LINK
+Here is the link to all available pages for the frontend issues. [Design link](https://www.figma.com/design/HmyIvuam4XSebSTZwayBLp/STELLAR-FLOW-NETWORK?node-id=0-1&t=H2Bg3XedVscGk4Xx-1)
+
 ### Installation
 ```bash
 git clone [https://github.com/StellarFlow-Network/stellarflow-frontend.git](https://github.com/StellarFlow-Network/stellarflow-frontend.git)
 cd stellarflow-frontend
 npm install
 npm run dev
-
+```
 🎨 Tech Stack
 
 Framework: Next.js 15 (App Router) 
@@ -65,6 +68,7 @@ Run: npm run dev
 
 ### 3. Smart Contracts README (`stellarflow-contracts`)
 **Location:** `stellarflow-contracts/README.md`
+```
 
 ```markdown
 # 📜 StellarFlow Smart Contracts
@@ -93,3 +97,4 @@ cargo test
 
 Acknowledgments
 Built with ❤️ for the Stellar Africa community.
+```

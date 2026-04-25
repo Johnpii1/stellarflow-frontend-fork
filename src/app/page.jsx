@@ -61,6 +61,12 @@ const page = () => {
             <PriceFeedCard refreshInterval={30000} />
           </section>
           
+          {/* Relayer Status Table */}
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-white uppercase tracking-wider text-sm mb-4">Relayer Network Status</h2>
+            <RelayerStatusTable relayers={mockRelayers} />
+          </section>
+
           {/* Chart loading state and source table shell */}
           <section className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.95fr)]">
             <div className="rounded-[32px] border border-[#A7C957]/30 bg-[#0A1020] p-5 shadow-[0_24px_80px_rgba(2,8,23,0.42)]">

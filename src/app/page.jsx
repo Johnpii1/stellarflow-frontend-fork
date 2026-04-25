@@ -4,14 +4,7 @@ import Nav from "./components/nav";
 import FloatingSidebar from "./components/FloatingSidebar";
 import SystemStats from "./components/SystemStats";
 import ModularStatsCard from "./components/ModularStatsCard";
-import RelayerStatusTable from "./components/RelayerStatusTable";
-
-const mockRelayers = [
-  { id: '1', name: 'Alpha Node', status: 'Online', latency: 45 },
-  { id: '2', name: 'Beta Relay', status: 'Online', latency: 32 },
-  { id: '3', name: 'Gamma Link', status: 'Syncing', latency: 120 },
-  { id: '4', name: 'Delta Core', status: 'Offline', latency: 0 },
-];
+import PriceFeedCard from "./components/PriceFeedCard";
 
 const LoadingChartState = () => {
   return (
@@ -61,6 +54,11 @@ const page = () => {
             <ModularStatsCard label="Total Value Locked" value={85432000} trend={-2.4} unit="USD" />
             <ModularStatsCard label="Active Nodes" value={1240} trend={0.8} />
             <ModularStatsCard label="Oracle Accuracy" value={99.98} trend={0.01} unit="%" />
+          </section>
+
+          {/* Dynamic Price Feed — NGN/XLM */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <PriceFeedCard refreshInterval={30000} />
           </section>
           
           {/* Relayer Status Table */}

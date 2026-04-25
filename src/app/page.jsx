@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 import Nav from "./components/nav";
 import FloatingSidebar from "./components/FloatingSidebar";
 import SystemStats from "./components/SystemStats";
+import ModularStatsCard from "./components/ModularStatsCard";
 
 const LoadingChartState = () => {
   return (
@@ -45,6 +46,14 @@ const page = () => {
         <div className="max-w-6xl mx-auto space-y-12">
           {/* System At-A-Glance Stats Section */}
           <SystemStats />
+
+          {/* Modular Stats Cards Section */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ModularStatsCard label="Network Throughput" value={1245670} trend={12.5} unit="TPS" />
+            <ModularStatsCard label="Total Value Locked" value={85432000} trend={-2.4} unit="USD" />
+            <ModularStatsCard label="Active Nodes" value={1240} trend={0.8} />
+            <ModularStatsCard label="Oracle Accuracy" value={99.98} trend={0.01} unit="%" />
+          </section>
           
           {/* Chart loading state and source table shell */}
           <section className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.95fr)]">

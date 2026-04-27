@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { RefreshCw } from "lucide-react";
 import { useProgressBar } from "./TopLoadingBar";
+import { Shimmer } from "../../components/skeletons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -76,12 +77,6 @@ function formatTime(iso: string): string {
     return "--:--:--";
   }
 }
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-const SkeletonPulse = ({ className }: { className?: string }) => (
-  <span className={`block animate-pulse rounded bg-white/10 ${className ?? ""}`} />
-);
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -188,8 +183,8 @@ const PriceFeedCard: React.FC<PriceFeedCardProps> = ({
       {/* ── Price + 24h change ── */}
       {loading ? (
         <div className="space-y-3 mb-5">
-          <SkeletonPulse className="h-10 w-3/4" />
-          <SkeletonPulse className="h-5 w-1/3" />
+          <Shimmer className="h-10 w-3/4" />
+          <Shimmer className="h-5 w-1/3" />
         </div>
       ) : error ? (
         <div className="mb-5 rounded-lg border border-rose-500/20 bg-rose-500/10 px-4 py-3">
@@ -262,7 +257,7 @@ const PriceFeedCard: React.FC<PriceFeedCardProps> = ({
           {lastRefresh
             ? `Updated ${formatTime(lastRefresh.toISOString())}`
             : loading
-            ? "Fetching…"
+            ? <Shimmer className="h-3 w-16 inline-block" />
             : "—"}
         </span>
         <span className="text-[9px] text-gray-700 font-mono tracking-widest">

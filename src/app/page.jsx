@@ -1,40 +1,16 @@
-import React from "react";
-import { Loader2 } from "lucide-react";
-import Nav from "./components/nav";
-import FloatingSidebar from "./components/FloatingSidebar";
-import SystemStats from "./components/SystemStats";
-import ModularStatsCard from "./components/ModularStatsCard";
-import PriceFeedCard from "./components/PriceFeedCard";
-import RateSparklineCard from "./components/RateSparklineCard";
-import RelayerStatusTable from "./components/RelayerStatusTable";
-import { MapSkeleton } from "../components/skeletons";
+import LivePrices from './components/client/LivePrices'
+import dynamic from 'next/dynamic'
 
-const mockRelayers = [
-  { id: "r1", name: "Abuja Relayer", status: "Online", latency: 34 },
-  { id: "r2", name: "Lagos Relayer", status: "Syncing", latency: 72 },
-  { id: "r3", name: "Cape Town Relayer", status: "Online", latency: 48 },
-];
+// Lazy load heavy client components
+const MapWidget = dynamic(() => import('./components/client/MapWidget'), {
+  ssr: false,
+})
 
-const rateCards = [
-  {
-    currency: "NGN",
-    rate: 13.42,
-    trend: 1.8,
-    sparklineData: [12.9, 13.1, 13.0, 13.3, 13.5, 13.4, 13.42],
-  },
-  {
-    currency: "KES",
-    rate: 0.30,
-    trend: -0.6,
-    sparklineData: [0.31, 0.305, 0.302, 0.300, 0.299, 0.301, 0.300],
-  },
-  {
-    currency: "GHS",
-    rate: 0.11,
-    trend: 0.9,
-    sparklineData: [0.108, 0.109, 0.110, 0.111, 0.110, 0.109, 0.110],
-  },
-];
+export default async function DashboardPage() {
+  // Server-side fetch (fast, cached)
+  const initialPrices = await fetch('http://localhost:3000/api/prices', {
+    next: { revalidate: 30 }, // ISR caching
+  }).then(res => res.json())
 
 const LoadingChartState = () => {
   return <MapSkeleton />;

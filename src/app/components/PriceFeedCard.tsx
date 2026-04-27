@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { RefreshCw } from "lucide-react";
 import { useProgressBar } from "./TopLoadingBar";
-import { Shimmer } from "../../components/skeletons";
+import { useDebounce } from "../hooks/useDebounce";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -88,6 +88,8 @@ const PriceFeedCard: React.FC<PriceFeedCardProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [filterInput, setFilterInput] = useState("");
+  const debouncedFilter = useDebounce(filterInput, 300);
   const { start, done } = useProgressBar();
 
   const load = useCallback(async (manual = false) => {
@@ -250,6 +252,23 @@ const PriceFeedCard: React.FC<PriceFeedCardProps> = ({
           </div>
         </div>
       )}
+
+      {/* ── Filter input (debounced 300ms) ── */}
+      <div className="relative mt-4">
+        <input
+          type="text"
+          value={filterInput}
+          onChange={(e) => setFilterInput(e.target.value)}
+          placeholder="Filter pair…"
+          aria-label="Filter price feed pair"
+          className="w-full rounded-lg border border-[#1B2A3B] bg-[#0A0F1E] px-3 py-1.5 text-xs text-white/70 placeholder-gray-600 outline-none focus:border-[#39FF14]/40 focus:ring-0 transition-colors"
+        />
+        {debouncedFilter && (
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-[#39FF14]/60 font-mono">
+            {debouncedFilter}
+          </span>
+        )}
+      </div>
 
       {/* ── Footer: last updated ── */}
       <div className="relative mt-4 flex items-center justify-between">

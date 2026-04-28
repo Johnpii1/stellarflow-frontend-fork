@@ -1,12 +1,89 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 interface RateSparklineCardProps {
   currency: string;
   rate: number;
   trend: number;
   sparklineData: number[];
+}
+
+function largestTriangleThreeBuckets(data: number[], threshold: number) {
+  if (threshold >= data.length || threshold === 0) {
+    return data.slice();
+  }
+
+  const sampled: number[] = [];
+  const bucketSize = (data.length - 2) / (threshold - 2);
+  let a = 0;
+  sampled.push(data[a]);
+
+  for (let i = 0; i < threshold - 2; i += 1) {
+    const rangeStart = Math.floor((i + 1) * bucketSize) + 1;
+    const rangeEnd = Math.min(Math.floor((i + 2) * bucketSize) + 1, data.length - 1);
+
+    const avgRangeStart = rangeEnd;
+    const avgRangeEnd = Math.min(Math.floor((i + 3) * bucketSize) + 1, data.length);
+    let avgX = 0;
+    let avgY = 0;
+    let avgRangeLength = 0;
+
+    for (let j = rangeStart; j < avgRangeEnd; j += 1) {
+      avgX += j;
+      avgY += data[j];
+      avgRangeLength += 1;
+    }
+
+    if (avgRangeLength > 0) {
+      avgX /= avgRangeLength;
+      avgY /= avgRangeLength;
+    }
+
+    const pointAx = a;
+    const pointAy = data[a];
+
+    let maxArea = -1;
+    let maxAreaIndex = rangeStart;
+
+    for (let j = rangeStart; j < rangeEnd; j += 1) {
+      const area = Math.abs(
+        (pointAx - avgX) * (data[j] - pointAy) -
+          (pointAx - j) * (avgY - pointAy)
+      ) * 0.5;
+
+      if (area > maxArea) {
+        maxArea = area;
+        maxAreaIndex = j;
+      }
+    }
+
+    sampled.push(data[maxAreaIndex]);
+    a = maxAreaIndex;
+  }
+
+  sampled.push(data[data.length - 1]);
+  return sampled;
+}
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(query).matches : false
+  );
+
+  useEffect(() => {
+    const mediaQueryList = window.matchMedia(query);
+    const listener = (event: MediaQueryListEvent) => setMatches(event.matches);
+
+    setMatches(mediaQueryList.matches);
+    mediaQueryList.addEventListener("change", listener);
+
+    return () => {
+      mediaQueryList.removeEventListener("change", listener);
+    };
+  }, [query]);
+
+  return matches;
 }
 
 const MiniSparkline = React.memo(function MiniSparkline({

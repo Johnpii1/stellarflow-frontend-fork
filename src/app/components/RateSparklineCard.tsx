@@ -15,38 +15,40 @@ function largestTriangleThreeBuckets(data: number[], threshold: number) {
   }
 
   const sampled: number[] = [];
-  const bucketSize = (data.length - 2) / (threshold - 2);
+  const every = (data.length - 2) / (threshold - 2);
   let a = 0;
   sampled.push(data[a]);
 
   for (let i = 0; i < threshold - 2; i += 1) {
-    const rangeStart = Math.floor((i + 1) * bucketSize) + 1;
-    const rangeEnd = Math.min(Math.floor((i + 2) * bucketSize) + 1, data.length - 1);
+    const avgRangeStart = Math.floor((i + 1) * every) + 1;
+    const avgRangeEnd = Math.min(Math.floor((i + 2) * every) + 1, data.length);
 
-    const avgRangeStart = rangeEnd;
-    const avgRangeEnd = Math.min(Math.floor((i + 3) * bucketSize) + 1, data.length);
     let avgX = 0;
     let avgY = 0;
-    let avgRangeLength = 0;
+    const avgRangeLength = avgRangeEnd - avgRangeStart;
 
-    for (let j = rangeStart; j < avgRangeEnd; j += 1) {
+    for (let j = avgRangeStart; j < avgRangeEnd; j += 1) {
       avgX += j;
       avgY += data[j];
-      avgRangeLength += 1;
     }
 
     if (avgRangeLength > 0) {
       avgX /= avgRangeLength;
       avgY /= avgRangeLength;
+    } else {
+      avgX = avgRangeStart;
+      avgY = data[avgRangeStart];
     }
 
+    const rangeOffs = Math.floor(i * every) + 1;
+    const rangeTo = Math.min(Math.floor((i + 1) * every) + 1, data.length - 1);
+
+    let maxArea = -1;
+    let maxAreaIndex = rangeOffs;
     const pointAx = a;
     const pointAy = data[a];
 
-    let maxArea = -1;
-    let maxAreaIndex = rangeStart;
-
-    for (let j = rangeStart; j < rangeEnd; j += 1) {
+    for (let j = rangeOffs; j < rangeTo; j += 1) {
       const area = Math.abs(
         (pointAx - avgX) * (data[j] - pointAy) -
           (pointAx - j) * (avgY - pointAy)
@@ -132,7 +134,14 @@ const RateSparklineCard: React.FC<RateSparklineCardProps> = ({
   trend,
   sparklineData,
 }) => {
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const isPositive = trend >= 0;
+
+  const displayData = useMemo(
+    () =>
+      isMobile ? largestTriangleThreeBuckets(sparklineData, 20) : sparklineData,
+    [isMobile, sparklineData]
+  );
 
   const formattedRate = useMemo(
     () => `${currency} ${rate.toFixed(2)}`,
@@ -170,7 +179,7 @@ const RateSparklineCard: React.FC<RateSparklineCardProps> = ({
       </div>
 
       <div className={`mt-4 ${sparklineClasses}`}>
-        <MiniSparkline data={sparklineData} />
+        <MiniSparkline data={displayData} />
       </div>
     </div>
   );

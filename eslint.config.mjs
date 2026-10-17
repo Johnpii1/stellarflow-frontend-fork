@@ -23,6 +23,8 @@ const eslintConfig = defineConfig([
       "react/no-unescaped-entities": "off",
       "@next/next/no-html-link-for-pages": "off",
       "prefer-const": "off",
+      "sort-imports": ["error", { "ignoreDeclarationSort": true, "ignoreMemberSort": false }],
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "caughtErrorsIgnorePattern": "^_" }],
     },
   },
   // Override default ignores of eslint-config-next.
